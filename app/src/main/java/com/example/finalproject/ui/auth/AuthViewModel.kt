@@ -4,7 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.finalproject.data.AuthRepository
 import com.example.finalproject.data.Resource
-import com.example.finalproject.navigation.Routes
+import com.example.finalproject.navigation.AuthRoutes
+import com.example.finalproject.navigation.Graph
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,14 +27,17 @@ class AuthViewModel @Inject constructor(
     val currentUser: FirebaseUser?
         get() = repository.currentUser
 
-    private val _startDestination = MutableStateFlow(Routes.Login.name)
+    private val _startDestination = MutableStateFlow(AuthRoutes.Login.route)
     val startDestination: StateFlow<String> get() = _startDestination
+
+    private val _errorMess = MutableStateFlow("")
+    val errorMess: StateFlow<String> get() = _errorMess
 
 
     init {
+        _startDestination.value = Graph.MainHome.route
         if(repository.currentUser != null){
             _loginFlow.value = Resource.Success(repository.currentUser!!)
-            _startDestination.value = Routes.Home.name
         }
     }
 
@@ -41,6 +45,7 @@ class AuthViewModel @Inject constructor(
         _loginFlow.value = Resource.Loading
         val result = repository.login(email, password)
         _loginFlow.value = result
+
     }
 
     fun signup(name: String, email: String, password: String) = viewModelScope.launch {

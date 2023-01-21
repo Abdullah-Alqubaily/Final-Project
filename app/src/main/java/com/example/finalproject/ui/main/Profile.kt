@@ -1,4 +1,4 @@
-package com.example.finalproject.ui.home
+package com.example.finalproject.ui.main
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image

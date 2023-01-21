@@ -1,6 +1,5 @@
 package com.example.finalproject.ui.auth
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -14,28 +13,55 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.finalproject.R
+import com.example.finalproject.data.Resource
 import com.example.finalproject.ui.theme.spacing
+import com.google.firebase.auth.FirebaseUser
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
     viewModel: AuthViewModel?,
-    onClickedText: () -> Unit,
     onSuccess: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val focusManager = LocalFocusManager.current
-
     val signupFlow = viewModel?.signupFlow?.collectAsState()
 
+    RegisterContent(
+        viewModel = viewModel,
+        name = name,
+        email = email,
+        password = password,
+        signupFlow = signupFlow,
+        onNameChange = { name = it},
+        onEmailChange = { email = it },
+        onPassChange = { password = it },
+        onSuccess = onSuccess
+    )
+
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun RegisterContent(
+    viewModel: AuthViewModel?,
+    name: String,
+    email: String,
+    password: String,
+    signupFlow: State<Resource<FirebaseUser>?>?,
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPassChange: (String) -> Unit,
+    onSuccess: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val focusManager = LocalFocusManager.current
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -43,7 +69,6 @@ fun RegisterScreen(
             refParent,
             refName, refEmail,
             refPassword, refButtonSignup,
-            refTextSignup,
             refLoader) = createRefs()
         val spacing = MaterialTheme.spacing
 
@@ -61,9 +86,7 @@ fun RegisterScreen(
 
             OutlinedTextField(
                 value = name,
-                onValueChange = {
-                    name = it
-                },
+                onValueChange = onNameChange,
                 label = {
                     Text(text = stringResource(id = R.string.name))
                 },
@@ -88,9 +111,7 @@ fun RegisterScreen(
 
             OutlinedTextField(
                 value = email,
-                onValueChange = {
-                    email = it
-                },
+                onValueChange = onEmailChange,
                 label = {
                     Text(text = stringResource(id = R.string.email))
                 },
@@ -115,9 +136,7 @@ fun RegisterScreen(
 
             OutlinedTextField(
                 value = password,
-                onValueChange = {
-                    password = it
-                },
+                onValueChange = onPassChange,
                 label = {
                     Text(text = stringResource(id = R.string.password))
                 },
@@ -157,23 +176,6 @@ fun RegisterScreen(
                     style = MaterialTheme.typography.titleMedium
                 )
             }
-
-
-            Text(
-                modifier = Modifier
-                    .constrainAs(refTextSignup) {
-                        top.linkTo(refButtonSignup.bottom, spacing.medium)
-                        start.linkTo(parent.start, spacing.extraLarge)
-                        end.linkTo(parent.end, spacing.extraLarge)
-                    }
-                    .clickable {
-                        onClickedText()
-                    },
-                text = stringResource(id = R.string.already_have_account),
-                style = MaterialTheme.typography.bodyLarge,
-                textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurface
-            )
 
 
             Box(Modifier.constrainAs(refLoader) {

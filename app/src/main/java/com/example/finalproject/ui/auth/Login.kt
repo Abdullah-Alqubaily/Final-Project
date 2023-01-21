@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.auth
 
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,7 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.finalproject.R
+import com.example.finalproject.data.Resource
 import com.example.finalproject.ui.theme.spacing
+import com.google.firebase.auth.FirebaseUser
 
 
 @Preview(showSystemUi = true)
@@ -31,7 +34,6 @@ fun LoginPrev() {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     viewModel: AuthViewModel?,
@@ -42,9 +44,37 @@ fun LoginScreen(
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val loginFlow = viewModel?.loginFlow?.collectAsState()
+
+
+    LoginContent(
+        viewModel = viewModel,
+        email = email,
+        password = password,
+        loginFlow = loginFlow,
+        onEmailChange = { email = it },
+        onPassChange = { password = it },
+        onClickedText = onClickedText,
+        onSuccess = onSuccess
+    )
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LoginContent(
+    viewModel: AuthViewModel?,
+    email: String,
+    password: String,
+    loginFlow: State<Resource<FirebaseUser>?>?,
+    onEmailChange: (String) -> Unit,
+    onPassChange: (String) -> Unit,
+    onClickedText: () -> Unit,
+    onSuccess: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val focusManager = LocalFocusManager.current
 
-    val loginFlow = viewModel?.loginFlow?.collectAsState()
 
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
@@ -72,9 +102,7 @@ fun LoginScreen(
 
             OutlinedTextField(
                 value = email,
-                onValueChange = {
-                    email = it
-                },
+                onValueChange = onEmailChange,
                 label = {
                     Text(text = stringResource(id = R.string.email))
                 },
@@ -99,9 +127,7 @@ fun LoginScreen(
 
             OutlinedTextField(
                 value = password,
-                onValueChange = {
-                    password = it
-                },
+                onValueChange = onPassChange,
                 label = {
                     Text(text = stringResource(id = R.string.password))
                 },
@@ -137,8 +163,8 @@ fun LoginScreen(
                 }
             ) {
                 Text(
-                    text = stringResource(id = R.string.login),
-                    style = MaterialTheme.typography.bodyLarge
+                    text = stringResource(id = R.string.login), color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
 
@@ -159,6 +185,7 @@ fun LoginScreen(
                 color = MaterialTheme.colorScheme.onSurface
             )
 
+
             Box(Modifier.constrainAs(refLoader) {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
@@ -176,3 +203,5 @@ fun LoginScreen(
 
     }
 }
+
+
