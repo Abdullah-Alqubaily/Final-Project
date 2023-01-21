@@ -30,6 +30,7 @@ fun RegisterScreen(
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
     val signupFlow = viewModel?.signupFlow?.collectAsState()
 
     RegisterContent(
@@ -88,7 +89,7 @@ fun RegisterContent(
                 value = name,
                 onValueChange = onNameChange,
                 label = {
-                    Text(text = stringResource(id = R.string.name))
+                    Text(text = stringResource(id = R.string.username))
                 },
                 modifier = Modifier.constrainAs(refName) {
                     top.linkTo(parent.top, spacing.extraLarge)
@@ -173,7 +174,8 @@ fun RegisterContent(
             ) {
                 Text(
                     text = stringResource(id = R.string.signup),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
 

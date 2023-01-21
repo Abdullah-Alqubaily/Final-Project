@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -20,7 +20,19 @@ import com.example.finalproject.ui.theme.spacing
 @Composable
 fun ProfileScreen(
     viewModel: AuthViewModel?,
-    onClicked: () -> Unit
+    onLogInBtn: () -> Unit
+) {
+    ProfileContent(
+        viewModel = viewModel,
+    ) {
+        onLogInBtn()
+    }
+}
+
+@Composable
+fun ProfileContent(
+    viewModel: AuthViewModel?,
+    onLogInBtn: () -> Unit
 ) {
     val spacing = MaterialTheme.spacing
     Column(
@@ -62,7 +74,7 @@ fun ProfileScreen(
                     .wrapContentHeight()
             ) {
                 Text(
-                    text = stringResource(id = R.string.name),
+                    text = stringResource(id = R.string.username),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.weight(0.3f),
                     color = MaterialTheme.colorScheme.onSurface
@@ -80,6 +92,7 @@ fun ProfileScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .wrapContentHeight()
+                    .padding(bottom = spacing.extraLarge)
             ) {
                 Text(
                     text = stringResource(id = R.string.email),
@@ -96,14 +109,25 @@ fun ProfileScreen(
                 )
             }
 
+            if (viewModel?.currentUser == null) {
+                Button(
+                    onClick = {
+                        onLogInBtn()
+                    },
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(bottom = spacing.medium)
+                ) {
+                    Text(text = stringResource(id = R.string.login))
+                }
+            }
+
             Button(
                 onClick = {
                     viewModel?.logout()
-                    onClicked()
                 },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(top = spacing.extraLarge)
             ) {
                 Text(text = stringResource(id = R.string.logout))
             }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Final Project</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="login">تسجيل دخول</string>
+    <string name="dont_have_account">لا تملك حساب؟ أضغط هنا لإنشاء حساب</string>
+    <string name="username">أسم المستخدم</string>
+    <string name="signup">إنشاء حساب</string>
+    <string name="welcome_back">أهلا بك</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="empty">فارغ</string>
+    <string name="home">الرئيسية</string>
+    <string name="cart">السلة</string>
+    <string name="profile">حسابي</string>
+</resources>

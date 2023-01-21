@@ -30,10 +30,6 @@ class AuthViewModel @Inject constructor(
     private val _startDestination = MutableStateFlow(AuthRoutes.Login.route)
     val startDestination: StateFlow<String> get() = _startDestination
 
-    private val _errorMess = MutableStateFlow("")
-    val errorMess: StateFlow<String> get() = _errorMess
-
-
     init {
         _startDestination.value = Graph.MainHome.route
         if(repository.currentUser != null){

@@ -6,7 +6,7 @@ import androidx.navigation.navigation
 import com.example.finalproject.ui.auth.AuthViewModel
 import com.example.finalproject.ui.auth.LoginScreen
 import com.example.finalproject.ui.auth.RegisterScreen
-import com.example.finalproject.ui.main.HomeScreen
+import com.example.finalproject.ui.main.BottomNavScreen
 
 
 fun NavGraphBuilder.authNavGraph(
@@ -48,7 +48,7 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = Graph.MainHome.route) {
-            HomeScreen(viewModel) {
+            BottomNavScreen(viewModel) {
                 navController.navigate(AuthRoutes.Login.route)
             }
         }

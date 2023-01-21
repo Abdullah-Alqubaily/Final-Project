@@ -11,6 +11,11 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun CartScreen() {
+    CartContent()
+}
+
+@Composable
+fun CartContent() {
     Column(
         modifier = Modifier
             .fillMaxSize(),

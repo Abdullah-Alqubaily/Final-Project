@@ -7,10 +7,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.finalproject.ui.auth.AuthViewModel
-import com.example.finalproject.ui.auth.LoginScreen
 import com.example.finalproject.ui.main.CartScreen
 import com.example.finalproject.ui.main.Content
-import com.example.finalproject.ui.main.HomeScreen
 import com.example.finalproject.ui.main.ProfileScreen
 
 
@@ -19,7 +17,7 @@ fun HomeNavGraph(
     viewModel: AuthViewModel,
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit
+    onLogInBtn: () -> Unit
 ) {
 
     NavHost(
@@ -39,7 +37,7 @@ fun HomeNavGraph(
 
         composable(BottomBarRoutes.Profile.route) {
             ProfileScreen(viewModel = viewModel) {
-                onClick()
+                onLogInBtn()
             }
         }
     }

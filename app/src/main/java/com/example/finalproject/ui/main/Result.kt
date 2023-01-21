@@ -13,6 +13,11 @@ import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
 fun Content() {
+    HomeContent()
+}
+
+@Composable
+fun HomeContent() {
     Column(
         modifier = Modifier
             .fillMaxSize(),
