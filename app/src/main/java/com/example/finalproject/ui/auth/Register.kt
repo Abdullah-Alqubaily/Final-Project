@@ -178,19 +178,19 @@ fun RegisterContent(
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
+        }
 
-
-            Box(Modifier.constrainAs(refLoader) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }) {
-                Status(
-                    UserState = signupFlow,
-                ) {
-                    onSuccess()
-                }
+        Box(Modifier.constrainAs(refLoader) {
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+        }) {
+            Status(
+                clearStatus = {viewModel?.checkStatus()},
+                userState = signupFlow
+            ) {
+                onSuccess()
             }
         }
 

@@ -151,9 +151,11 @@ fun LoginContent(
                 )
             )
 
+
             Button(
                 onClick = {
                     viewModel?.login(email, password)
+
                 },
                 modifier = Modifier.constrainAs(refButtonLogin) {
                     top.linkTo(refPassword.bottom, spacing.large)
@@ -163,7 +165,8 @@ fun LoginContent(
                 }
             ) {
                 Text(
-                    text = stringResource(id = R.string.login), color = MaterialTheme.colorScheme.onSurface,
+                    text = stringResource(id = R.string.login),
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.bodyLarge,
                 )
             }
@@ -184,21 +187,19 @@ fun LoginContent(
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface
             )
-
-
-            Box(Modifier.constrainAs(refLoader) {
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-            }) {
-                Status(
-                    UserState = loginFlow,
-                ) {
-                    onSuccess()
-                }
+        }
+        Box(Modifier.constrainAs(refLoader) {
+            top.linkTo(parent.top)
+            bottom.linkTo(parent.bottom)
+            start.linkTo(parent.start)
+            end.linkTo(parent.end)
+        }) {
+            Status(
+                clearStatus = {viewModel?.checkStatus()},
+                userState = loginFlow
+            ) {
+                onSuccess()
             }
-
         }
 
     }

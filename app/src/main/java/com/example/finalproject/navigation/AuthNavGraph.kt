@@ -14,6 +14,7 @@ fun NavGraphBuilder.authNavGraph(
 ) {
 
     val startDestination = viewModel.startDestination.value
+    var checkV = viewModel
 
     navigation(
         route = Graph.Authentication.route,
