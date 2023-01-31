@@ -8,7 +8,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.ui.platform.LocalContext
 import com.example.finalproject.data.Resource
+import com.example.finalproject.data.UserUiState
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 
 @Composable
 fun Status(
@@ -16,6 +20,7 @@ fun Status(
     userState: State<Resource<FirebaseUser>?>?,
     onSuccess: () -> Unit
 ) {
+    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     userState?.value?.let {
         when (it) {

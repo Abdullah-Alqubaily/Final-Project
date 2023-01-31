@@ -16,7 +16,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.finalproject.R
 import com.example.finalproject.navigation.BottomBarRoutes
-import com.example.finalproject.navigation.HomeNavGraph
+import com.example.finalproject.navigation.BottomNavGraph
 import com.example.finalproject.ui.auth.AuthViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -30,14 +30,13 @@ fun BottomNavScreen(
         bottomBar = { BottomNavigation(navController = navController!!) }
     ) {
         it.calculateBottomPadding()
-        HomeNavGraph(viewModel = viewModel!!, navController!!) {
+        BottomNavGraph(viewModel = viewModel!!, navController!!) {
             onLogInBtn()
         }
     }
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavigation(
     navController: NavHostController
@@ -82,6 +81,6 @@ fun BottomNavigation(
 
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
-fun HomeScreenPrev() {
+fun BottomNavPrev() {
     BottomNavScreen(null, navController = null) {}
 }

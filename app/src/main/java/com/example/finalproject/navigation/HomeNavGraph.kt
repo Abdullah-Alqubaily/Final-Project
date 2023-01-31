@@ -8,12 +8,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.finalproject.ui.auth.AuthViewModel
 import com.example.finalproject.ui.main.CartScreen
-import com.example.finalproject.ui.main.Content
+import com.example.finalproject.ui.main.home.HomeScreen
 import com.example.finalproject.ui.main.ProfileScreen
+import com.example.finalproject.ui.main.home.ServiceDetails
 
 
 @Composable
-fun HomeNavGraph(
+fun BottomNavGraph(
     viewModel: AuthViewModel,
     navController: NavHostController,
     modifier: Modifier = Modifier,
@@ -28,7 +29,9 @@ fun HomeNavGraph(
     ) {
 
         composable(BottomBarRoutes.Home.route) {
-            Content()
+            HomeScreen {
+                navController.navigate(BottomBarRoutes.ServiceDetails.route)
+            }
         }
 
         composable(BottomBarRoutes.Cart.route) {
@@ -36,9 +39,20 @@ fun HomeNavGraph(
         }
 
         composable(BottomBarRoutes.Profile.route) {
-            ProfileScreen(viewModel = viewModel) {
+            ProfileScreen(viewModel = viewModel, {
+                navController.popBackStack()
+                navController.navigate(BottomBarRoutes.Home.route) {
+                    popUpTo(BottomBarRoutes.Home.route) {
+                        inclusive = navController.currentDestination?.route === navController.graph.startDestDisplayName
+                    }
+                }
+            }) {
                 onLogInBtn()
             }
+        }
+
+        composable(BottomBarRoutes.ServiceDetails.route) {
+            ServiceDetails()
         }
     }
 }

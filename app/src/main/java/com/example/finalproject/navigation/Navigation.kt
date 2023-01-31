@@ -9,7 +9,7 @@ import com.example.finalproject.ui.auth.AuthViewModel
 
 @Composable
 fun Nav(
-    viewModel: AuthViewModel,
+    authViewModel: AuthViewModel,
     modifier: Modifier = Modifier
 ) {
 
@@ -20,7 +20,7 @@ fun Nav(
         route = Graph.Root.route,
         startDestination = Graph.Authentication.route
     ) {
-        authNavGraph(navController, viewModel)
+        authNavGraph(navController, authViewModel)
     }
 }
 

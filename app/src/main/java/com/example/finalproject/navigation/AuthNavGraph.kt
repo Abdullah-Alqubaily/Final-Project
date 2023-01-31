@@ -9,16 +9,16 @@ import com.example.finalproject.ui.auth.RegisterScreen
 import com.example.finalproject.ui.main.BottomNavScreen
 
 
+
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController, viewModel: AuthViewModel
 ) {
 
-    val startDestination = viewModel.startDestination.value
-    var checkV = viewModel
+//    val startDestination = viewModel.startDestination.value
 
     navigation(
         route = Graph.Authentication.route,
-        startDestination = startDestination
+        startDestination = Graph.MainHome.route
     ) {
         composable(route = AuthRoutes.Login.route) {
             LoginScreen(viewModel = viewModel,

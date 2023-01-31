@@ -1,5 +1,6 @@
 package com.example.finalproject.data
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -36,6 +37,7 @@ class AuthRepositoryImpl @Inject constructor(
             Resource.Failure(e)
         }
     }
+
 
     override fun logout() {
         firebaseAuth.signOut()

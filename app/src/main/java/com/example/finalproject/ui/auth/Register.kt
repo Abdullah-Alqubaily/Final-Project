@@ -1,5 +1,7 @@
 package com.example.finalproject.ui.auth
 
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -7,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -63,6 +66,7 @@ fun RegisterContent(
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
     ConstraintLayout(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -163,7 +167,11 @@ fun RegisterContent(
 
             Button(
                 onClick = {
-                    viewModel?.signup(name, email, password)
+                    if (name.isNotEmpty()) {
+                        viewModel?.signup(name, email, password)
+                    } else {
+                        Toast.makeText(context, "Username is empty", LENGTH_SHORT).show()
+                    }
                 },
                 modifier = Modifier.constrainAs(refButtonSignup) {
                     top.linkTo(refPassword.bottom, spacing.large)

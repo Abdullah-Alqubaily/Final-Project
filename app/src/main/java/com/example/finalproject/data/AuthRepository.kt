@@ -1,5 +1,6 @@
 package com.example.finalproject.data
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
 
 interface AuthRepository {
