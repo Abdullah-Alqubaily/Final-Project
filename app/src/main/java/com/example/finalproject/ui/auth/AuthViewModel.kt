@@ -7,15 +7,14 @@ import com.example.finalproject.data.AuthRepository
 import com.example.finalproject.data.Resource
 import com.example.finalproject.data.UserUiState
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,11 +28,17 @@ class AuthViewModel @Inject constructor(
     private val _signupFlow = MutableStateFlow<Resource<FirebaseUser>?>(null)
     val signupFlow: StateFlow<Resource<FirebaseUser>?> = _signupFlow
 
+    private val _profilePhoto = MutableStateFlow<Uri?>(null)
+    val profilePhoto: StateFlow<Uri?> = _profilePhoto
+
     val currentUser: FirebaseUser?
         get() = repository.currentUser
 
-    private val db: FirebaseFirestore
-        get() = FirebaseFirestore.getInstance()
+    val storageRef: StorageReference?
+        get() = repository.storageRef
+
+    val db: FirebaseFirestore?
+        get() = repository.db
 
 //    private val _startDestination = MutableStateFlow(AuthRoutes.Login.route)
 //    val startDestination: StateFlow<String> get() = _startDestination
@@ -42,6 +47,14 @@ class AuthViewModel @Inject constructor(
 //        _startDestination.value = Graph.MainHome.route
         if(repository.currentUser != null){
             _loginFlow.value = Resource.Success(repository.currentUser!!)
+            getProfilePhoto()
+        }
+    }
+
+    fun getProfilePhoto() = viewModelScope.launch {
+        val result = repository.getProfilePhoto()
+        result.downloadUrl.addOnSuccessListener {
+            _profilePhoto.value = it
         }
     }
 
@@ -63,7 +76,7 @@ class AuthViewModel @Inject constructor(
             userType = "normal",
             bio ="hello my name is ${Firebase.auth.currentUser?.displayName}",
         )
-        db.collection("users").document(Firebase.auth.currentUser!!.uid).set(user)
+        db?.collection("users")?.document(Firebase.auth.currentUser!!.uid)?.set(user)
 
     }
 
@@ -71,6 +84,7 @@ class AuthViewModel @Inject constructor(
         repository.logout()
         _loginFlow.value = null
         _signupFlow.value = null
+        _profilePhoto.value = null
     }
 
     fun checkStatus() {

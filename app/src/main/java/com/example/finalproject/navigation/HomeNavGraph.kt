@@ -15,7 +15,7 @@ import com.example.finalproject.ui.main.home.ServiceDetails
 
 @Composable
 fun BottomNavGraph(
-    viewModel: AuthViewModel,
+    authViewModel: AuthViewModel?,
     navController: NavHostController,
     modifier: Modifier = Modifier,
     onLogInBtn: () -> Unit
@@ -39,7 +39,7 @@ fun BottomNavGraph(
         }
 
         composable(BottomBarRoutes.Profile.route) {
-            ProfileScreen(viewModel = viewModel, {
+            ProfileScreen(authViewModel = authViewModel, {
                 navController.popBackStack()
                 navController.navigate(BottomBarRoutes.Home.route) {
                     popUpTo(BottomBarRoutes.Home.route) {

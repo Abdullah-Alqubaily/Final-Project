@@ -1,6 +1,7 @@
 package com.example.finalproject.ui.main
 
 import android.content.res.Configuration
+import android.net.Uri
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -22,21 +23,21 @@ import coil.compose.AsyncImage
 import com.example.finalproject.R
 import com.example.finalproject.ui.auth.AuthViewModel
 import com.example.finalproject.ui.theme.spacing
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 
-object Storage {
-    val ref = FirebaseStorage.getInstance().reference
-}
 
 @Composable
 fun ProfileScreen(
-    viewModel: AuthViewModel?,
+    authViewModel: AuthViewModel?,
     onLogOut: () -> Unit,
     onLogInBtn: () -> Unit
 ) {
+    val profilePhoto = authViewModel?.profilePhoto?.collectAsState()
+
+
     ProfileContent(
-        viewModel = viewModel, onLogOut
+        authViewModel = authViewModel,
+        profilePhoto,
+        onLogOut
     ) {
         onLogInBtn()
     }
@@ -44,16 +45,17 @@ fun ProfileScreen(
 
 @Composable
 fun ProfileContent(
-    viewModel: AuthViewModel?,
+    authViewModel: AuthViewModel?,
+    profilPhoto: State<Uri?>?,
     onLogOut: () -> Unit,
     onLogInBtn: () -> Unit
 ) {
 
     val context = LocalContext.current
-    var uploadTask: UploadTask?
     val isLoading by remember {
         mutableStateOf<Boolean?>(null)
     }
+
 
 //    if (viewModel?.currentUser != null) {
 //        storageViewModel?.storage?.reference?.child("profile_images/${viewModel.currentUser?.uid}")
@@ -67,32 +69,29 @@ fun ProfileContent(
 //    }
 
 
-
-
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
     ) { uri ->
         if (uri != null) {
-            uploadTask =
-                Storage.ref
-                    .child("profile_images/${viewModel?.currentUser?.uid}")
-                    .putFile(uri)
-            uploadTask?.addOnFailureListener {
-                // Handle unsuccessful uploads
-                Toast.makeText(context, it.message, LENGTH_SHORT).show()
-            }?.addOnSuccessListener { _ ->
-                // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-                // ...
-                Toast.makeText(context, "Upload successfully", LENGTH_SHORT).show()
-
-            }?.addOnProgressListener {
-
-            }
+            authViewModel?.storageRef?.child("profile_images/${authViewModel.currentUser?.uid}")
+                ?.putFile(uri)
+                ?.addOnFailureListener {
+                    Toast.makeText(context, it.message, LENGTH_SHORT).show()
+                }?.addOnSuccessListener {
+                    Toast.makeText(context, "Upload successfully", LENGTH_SHORT).show()
+                    authViewModel.getProfilePhoto()
+                }
+//            uploadTask?.value.let { it ->
+//                it?.addOnFailureListener {
+//                    Toast.makeText(context, it.message, LENGTH_SHORT).show()
+//                }?.addOnSuccessListener {
+//                    Toast.makeText(context, "Upload successfully", LENGTH_SHORT).show()
+//                    userOpViewModel?.getProfilePhoto()
+//                }
+//            }
 
         }
     }
-
-
 
 
     val spacing = MaterialTheme.spacing
@@ -113,7 +112,7 @@ fun ProfileContent(
         )
 
         Text(
-            text = viewModel?.currentUser?.displayName ?: "",
+            text = authViewModel?.currentUser?.displayName ?: "",
             style = MaterialTheme.typography.displaySmall,
             color = MaterialTheme.colorScheme.onSurface
         )
@@ -124,7 +123,7 @@ fun ProfileContent(
         ) {
             Card(
                 modifier = Modifier
-                    .clickable(enabled = viewModel?.currentUser != null) {
+                    .clickable(enabled = authViewModel?.currentUser != null) {
                         singlePhotoPickerLauncher.launch(
                             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                         )
@@ -132,15 +131,14 @@ fun ProfileContent(
                 shape = CircleShape
 
 
-                ) {
+            ) {
                 if (isLoading == true) {
                     CircularProgressIndicator()
                 }
                 AsyncImage(
                     modifier = Modifier.size(128.dp),
-                    model = "",
+                    model = profilPhoto?.value,
                     error = painterResource(id = R.drawable.ic_baseline_person_24),
-                    fallback = painterResource(id = R.drawable.ic_baseline_person_24),
                     contentDescription = "d",
                 )
             }
@@ -170,7 +168,7 @@ fun ProfileContent(
                 )
 
                 Text(
-                    text = viewModel?.currentUser?.displayName ?: "",
+                    text = authViewModel?.currentUser?.displayName ?: "",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.weight(0.7f),
                     color = MaterialTheme.colorScheme.onSurface
@@ -191,14 +189,14 @@ fun ProfileContent(
                 )
 
                 Text(
-                    text = viewModel?.currentUser?.email ?: "",
+                    text = authViewModel?.currentUser?.email ?: "",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.weight(0.7f),
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
 
-            if (viewModel?.currentUser == null) {
+            if (authViewModel?.currentUser == null) {
                 Button(
                     onClick = {
                         onLogInBtn()
@@ -212,7 +210,7 @@ fun ProfileContent(
             } else {
                 Button(
                     onClick = {
-                        viewModel.logout()
+                        authViewModel.logout()
                         onLogOut()
                     },
                     modifier = Modifier
@@ -232,5 +230,5 @@ fun ProfileContent(
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun ProfileScreenPrv() {
-    ProfileScreen(null,{}){}
+    ProfileScreen(null, {}) {}
 }

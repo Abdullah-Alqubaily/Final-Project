@@ -20,8 +20,6 @@ fun Status(
     userState: State<Resource<FirebaseUser>?>?,
     onSuccess: () -> Unit
 ) {
-    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-
     userState?.value?.let {
         when (it) {
             is Resource.Failure -> {
@@ -41,15 +39,4 @@ fun Status(
     }
 }
 
-
-//@Composable
-//fun SnackBarErr() {
-//    val scaffoldState = rememberScaffoldState()
-//
-//    Scaffold(
-//        modifier = Modifier.fillMaxSize(),
-//    ) {
-//
-//    }
-//}
 

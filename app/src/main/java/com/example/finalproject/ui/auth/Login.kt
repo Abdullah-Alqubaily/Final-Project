@@ -23,7 +23,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.finalproject.R
 import com.example.finalproject.data.Resource
-import com.example.finalproject.ui.main.Storage
 import com.example.finalproject.ui.theme.spacing
 import com.google.firebase.auth.FirebaseUser
 

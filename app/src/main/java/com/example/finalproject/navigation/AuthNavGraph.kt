@@ -9,9 +9,9 @@ import com.example.finalproject.ui.auth.RegisterScreen
 import com.example.finalproject.ui.main.BottomNavScreen
 
 
-
 fun NavGraphBuilder.authNavGraph(
-    navController: NavHostController, viewModel: AuthViewModel
+    navController: NavHostController,
+    authViewModel: AuthViewModel,
 ) {
 
 //    val startDestination = viewModel.startDestination.value
@@ -21,12 +21,13 @@ fun NavGraphBuilder.authNavGraph(
         startDestination = Graph.MainHome.route
     ) {
         composable(route = AuthRoutes.Login.route) {
-            LoginScreen(viewModel = viewModel,
+            LoginScreen(viewModel = authViewModel,
                 onClickedText = {
                     navController.navigate(AuthRoutes.Register.route) {
                     popUpTo(AuthRoutes.Login.route) { inclusive = false }
                 }
             }, onSuccess = {
+                    authViewModel.getProfilePhoto()
                 navController.popBackStack()
                 navController.navigate(Graph.MainHome.route) {
                     popUpTo(Graph.MainHome.route) {
@@ -37,7 +38,7 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = AuthRoutes.Register.route) {
-            RegisterScreen(viewModel = viewModel,
+            RegisterScreen(viewModel = authViewModel,
             onSuccess = {
                 navController.popBackStack()
                 navController.navigate(Graph.MainHome.route) {
@@ -49,7 +50,7 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = Graph.MainHome.route) {
-            BottomNavScreen(viewModel) {
+            BottomNavScreen(authViewModel) {
                 navController.navigate(AuthRoutes.Login.route)
             }
         }

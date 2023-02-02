@@ -22,7 +22,7 @@ import com.example.finalproject.ui.auth.AuthViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavScreen(
-    viewModel: AuthViewModel?,
+    authViewModel: AuthViewModel?,
     navController: NavHostController? = rememberNavController(),
     onLogInBtn: () -> Unit
 ) {
@@ -30,7 +30,7 @@ fun BottomNavScreen(
         bottomBar = { BottomNavigation(navController = navController!!) }
     ) {
         it.calculateBottomPadding()
-        BottomNavGraph(viewModel = viewModel!!, navController!!) {
+        BottomNavGraph(authViewModel = authViewModel,  navController!!) {
             onLogInBtn()
         }
     }
