@@ -2,36 +2,36 @@ package com.example.finalproject.ui.main
 
 
 import android.content.res.Configuration
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.finalproject.R
 import com.example.finalproject.navigation.BottomBarRoutes
 import com.example.finalproject.navigation.BottomNavGraph
-import com.example.finalproject.ui.auth.AuthViewModel
+import com.example.finalproject.ui.auth.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BottomNavScreen(
-    authViewModel: AuthViewModel?,
+    userViewModel: UserViewModel?,
     navController: NavHostController? = rememberNavController(),
     onLogInBtn: () -> Unit
 ) {
     Scaffold(
         bottomBar = { BottomNavigation(navController = navController!!) }
     ) {
-        it.calculateBottomPadding()
-        BottomNavGraph(authViewModel = authViewModel,  navController!!) {
-            onLogInBtn()
+        Box(modifier = Modifier.padding(it)) {
+            BottomNavGraph(userViewModel = userViewModel, navController!!) {
+                onLogInBtn()
+            }
         }
     }
 }
@@ -44,7 +44,7 @@ fun BottomNavigation(
     val items = listOf(BottomBarRoutes.Home, BottomBarRoutes.Cart, BottomBarRoutes.Profile)
 
     NavigationBar(
-        modifier = Modifier.clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)),
+        modifier = Modifier,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route

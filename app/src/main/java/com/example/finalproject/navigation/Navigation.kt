@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.finalproject.ui.auth.AuthViewModel
+import com.example.finalproject.ui.auth.UserViewModel
 
 
 @Composable
 fun Nav(
-    authViewModel: AuthViewModel,
+    userViewModel: UserViewModel,
     modifier: Modifier = Modifier
 ) {
 
@@ -20,7 +20,7 @@ fun Nav(
         route = Graph.Root.route,
         startDestination = Graph.Authentication.route
     ) {
-        authNavGraph(navController, authViewModel)
+        authNavGraph(navController, userViewModel)
     }
 }
 

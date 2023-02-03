@@ -3,7 +3,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.finalproject.ui.auth.AuthViewModel
+import com.example.finalproject.ui.auth.UserViewModel
 import com.example.finalproject.ui.auth.LoginScreen
 import com.example.finalproject.ui.auth.RegisterScreen
 import com.example.finalproject.ui.main.BottomNavScreen
@@ -11,7 +11,7 @@ import com.example.finalproject.ui.main.BottomNavScreen
 
 fun NavGraphBuilder.authNavGraph(
     navController: NavHostController,
-    authViewModel: AuthViewModel,
+    userViewModel: UserViewModel,
 ) {
 
 //    val startDestination = viewModel.startDestination.value
@@ -21,13 +21,13 @@ fun NavGraphBuilder.authNavGraph(
         startDestination = Graph.MainHome.route
     ) {
         composable(route = AuthRoutes.Login.route) {
-            LoginScreen(viewModel = authViewModel,
+            LoginScreen(userViewModel = userViewModel,
                 onClickedText = {
                     navController.navigate(AuthRoutes.Register.route) {
                     popUpTo(AuthRoutes.Login.route) { inclusive = false }
                 }
             }, onSuccess = {
-                    authViewModel.getProfilePhoto()
+                    userViewModel.getProfilePhoto()
                 navController.popBackStack()
                 navController.navigate(Graph.MainHome.route) {
                     popUpTo(Graph.MainHome.route) {
@@ -38,7 +38,7 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = AuthRoutes.Register.route) {
-            RegisterScreen(viewModel = authViewModel,
+            RegisterScreen(viewModel = userViewModel,
             onSuccess = {
                 navController.popBackStack()
                 navController.navigate(Graph.MainHome.route) {
@@ -50,7 +50,7 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = Graph.MainHome.route) {
-            BottomNavScreen(authViewModel) {
+            BottomNavScreen(userViewModel) {
                 navController.navigate(AuthRoutes.Login.route)
             }
         }

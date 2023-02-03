@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseUser
 
 @Composable
 fun RegisterScreen(
-    viewModel: AuthViewModel?,
+    viewModel: UserViewModel?,
     onSuccess: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -54,7 +54,7 @@ fun RegisterScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterContent(
-    viewModel: AuthViewModel?,
+    viewModel: UserViewModel?,
     name: String,
     email: String,
     password: String,

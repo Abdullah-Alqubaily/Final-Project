@@ -14,6 +14,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -21,21 +23,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.finalproject.R
-import com.example.finalproject.ui.auth.AuthViewModel
+import com.example.finalproject.ui.auth.UserViewModel
 import com.example.finalproject.ui.theme.spacing
 
 
 @Composable
 fun ProfileScreen(
-    authViewModel: AuthViewModel?,
+    userViewModel: UserViewModel?,
     onLogOut: () -> Unit,
     onLogInBtn: () -> Unit
 ) {
-    val profilePhoto = authViewModel?.profilePhoto?.collectAsState()
+    val profilePhoto = userViewModel?.profilePhoto?.collectAsState()
 
 
     ProfileContent(
-        authViewModel = authViewModel,
+        userViewModel = userViewModel,
         profilePhoto,
         onLogOut
     ) {
@@ -45,17 +47,13 @@ fun ProfileScreen(
 
 @Composable
 fun ProfileContent(
-    authViewModel: AuthViewModel?,
-    profilPhoto: State<Uri?>?,
+    userViewModel: UserViewModel?,
+    profilePhoto: State<Uri?>?,
     onLogOut: () -> Unit,
     onLogInBtn: () -> Unit
 ) {
 
     val context = LocalContext.current
-    val isLoading by remember {
-        mutableStateOf<Boolean?>(null)
-    }
-
 
 //    if (viewModel?.currentUser != null) {
 //        storageViewModel?.storage?.reference?.child("profile_images/${viewModel.currentUser?.uid}")
@@ -73,23 +71,14 @@ fun ProfileContent(
         contract = ActivityResultContracts.PickVisualMedia()
     ) { uri ->
         if (uri != null) {
-            authViewModel?.storageRef?.child("profile_images/${authViewModel.currentUser?.uid}")
+            userViewModel?.storageRef?.child("profile_images/${userViewModel.currentUser?.uid}")
                 ?.putFile(uri)
                 ?.addOnFailureListener {
                     Toast.makeText(context, it.message, LENGTH_SHORT).show()
                 }?.addOnSuccessListener {
                     Toast.makeText(context, "Upload successfully", LENGTH_SHORT).show()
-                    authViewModel.getProfilePhoto()
+                    userViewModel.getProfilePhoto()
                 }
-//            uploadTask?.value.let { it ->
-//                it?.addOnFailureListener {
-//                    Toast.makeText(context, it.message, LENGTH_SHORT).show()
-//                }?.addOnSuccessListener {
-//                    Toast.makeText(context, "Upload successfully", LENGTH_SHORT).show()
-//                    userOpViewModel?.getProfilePhoto()
-//                }
-//            }
-
         }
     }
 
@@ -112,18 +101,19 @@ fun ProfileContent(
         )
 
         Text(
-            text = authViewModel?.currentUser?.displayName ?: "",
+            text = userViewModel?.currentUser?.displayName ?: "",
             style = MaterialTheme.typography.displaySmall,
             color = MaterialTheme.colorScheme.onSurface
         )
 
 
         Box(
+            modifier = Modifier.size(150.dp),
             contentAlignment = Alignment.Center
         ) {
             Card(
-                modifier = Modifier
-                    .clickable(enabled = authViewModel?.currentUser != null) {
+                modifier = Modifier.matchParentSize()
+                    .clickable(enabled = userViewModel?.currentUser != null) {
                         singlePhotoPickerLauncher.launch(
                             PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                         )
@@ -132,14 +122,12 @@ fun ProfileContent(
 
 
             ) {
-                if (isLoading == true) {
-                    CircularProgressIndicator()
-                }
                 AsyncImage(
-                    modifier = Modifier.size(128.dp),
-                    model = profilPhoto?.value,
+                    modifier = Modifier.fillMaxSize().clip(CircleShape),
+                    model = profilePhoto?.value,
                     error = painterResource(id = R.drawable.ic_baseline_person_24),
                     contentDescription = "d",
+                    contentScale = ContentScale.Crop
                 )
             }
         }
@@ -168,7 +156,7 @@ fun ProfileContent(
                 )
 
                 Text(
-                    text = authViewModel?.currentUser?.displayName ?: "",
+                    text = userViewModel?.currentUser?.displayName ?: "",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.weight(0.7f),
                     color = MaterialTheme.colorScheme.onSurface
@@ -189,14 +177,14 @@ fun ProfileContent(
                 )
 
                 Text(
-                    text = authViewModel?.currentUser?.email ?: "",
+                    text = userViewModel?.currentUser?.email ?: "",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.weight(0.7f),
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
 
-            if (authViewModel?.currentUser == null) {
+            if (userViewModel?.currentUser == null) {
                 Button(
                     onClick = {
                         onLogInBtn()
@@ -210,7 +198,7 @@ fun ProfileContent(
             } else {
                 Button(
                     onClick = {
-                        authViewModel.logout()
+                        userViewModel.logout()
                         onLogOut()
                     },
                     modifier = Modifier

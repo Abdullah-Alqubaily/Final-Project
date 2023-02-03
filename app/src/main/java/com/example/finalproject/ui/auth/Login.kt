@@ -36,7 +36,7 @@ fun LoginPrev() {
 
 @Composable
 fun LoginScreen(
-    viewModel: AuthViewModel?,
+    userViewModel: UserViewModel?,
     onClickedText: () -> Unit,
     onSuccess: () -> Unit,
     modifier: Modifier = Modifier
@@ -44,11 +44,11 @@ fun LoginScreen(
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val loginFlow = viewModel?.loginFlow?.collectAsState()
+    val loginFlow = userViewModel?.loginFlow?.collectAsState()
 
 
     LoginContent(
-        viewModel = viewModel,
+        userViewModel = userViewModel,
         email = email,
         password = password,
         loginFlow = loginFlow,
@@ -63,7 +63,7 @@ fun LoginScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginContent(
-    viewModel: AuthViewModel?,
+    userViewModel: UserViewModel?,
     email: String,
     password: String,
     loginFlow: State<Resource<FirebaseUser>?>?,
@@ -153,7 +153,7 @@ fun LoginContent(
 
             Button(
                 onClick = {
-                    viewModel?.login(email, password)
+                    userViewModel?.login(email, password)
 
                 },
                 modifier = Modifier.constrainAs(refButtonLogin) {
@@ -194,7 +194,7 @@ fun LoginContent(
             end.linkTo(parent.end)
         }) {
             Status(
-                clearStatus = {viewModel?.checkStatus()},
+                clearStatus = {userViewModel?.checkStatus()},
                 userState = loginFlow
             ) {
                 onSuccess()
