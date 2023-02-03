@@ -21,6 +21,7 @@ fun Nav(
         startDestination = Graph.Authentication.route
     ) {
         authNavGraph(navController, userViewModel)
+        serviceNavGraph(navController, userViewModel)
     }
 }
 
@@ -28,4 +29,5 @@ sealed class Graph(val route: String) {
     object Root : Graph(route = "Root")
     object Authentication : Graph(route = "Authentication")
     object MainHome : Graph(route = "MainHome")
+    object Details : Graph(route = "Details")
 }

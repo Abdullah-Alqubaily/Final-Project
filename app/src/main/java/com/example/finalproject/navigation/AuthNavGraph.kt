@@ -50,9 +50,15 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(route = Graph.MainHome.route) {
-            BottomNavScreen(userViewModel) {
-                navController.navigate(AuthRoutes.Login.route)
-            }
+            BottomNavScreen(
+                userViewModel = userViewModel,
+                onLogInBtn = {
+                    navController.navigate(AuthRoutes.Login.route)
+                },
+                onServiceClicked = {
+                    navController.navigate(Graph.Details.route)
+                }
+            )
         }
     }
 }

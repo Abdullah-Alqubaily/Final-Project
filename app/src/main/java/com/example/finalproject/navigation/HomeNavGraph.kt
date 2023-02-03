@@ -1,6 +1,7 @@
 package com.example.finalproject.navigation
 
 
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -15,10 +16,11 @@ import com.example.finalproject.ui.main.home.ServiceDetails
 
 @Composable
 fun BottomNavGraph(
+    modifier: Modifier = Modifier,
     userViewModel: UserViewModel?,
     navController: NavHostController,
-    modifier: Modifier = Modifier,
-    onLogInBtn: () -> Unit
+    onLogInBtn: () -> Unit,
+    onServiceClicked: () -> Unit
 ) {
 
     NavHost(
@@ -30,11 +32,11 @@ fun BottomNavGraph(
 
         composable(BottomBarRoutes.Home.route) {
             HomeScreen {
-                navController.navigate(BottomBarRoutes.ServiceDetails.route)
+                onServiceClicked()
             }
         }
 
-        composable(BottomBarRoutes.Cart.route) {
+        composable(BottomBarRoutes.Favorite.route) {
             CartScreen()
         }
 
@@ -51,8 +53,5 @@ fun BottomNavGraph(
             }
         }
 
-        composable(BottomBarRoutes.ServiceDetails.route) {
-            ServiceDetails()
-        }
     }
 }

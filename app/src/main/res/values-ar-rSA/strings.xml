@@ -11,10 +11,10 @@
     <string name="logout">تسجيل الخروج</string>
     <string name="empty">فارغ</string>
     <string name="home">الرئيسية</string>
-    <string name="cart">السلة</string>
     <string name="profile">حسابي</string>
     <string name="photographers">مصورين</string>
     <string name="graphic_designers">مصممين</string>
     <string name="start_from">يبدأ من  15$</string>
     <string name="content_description">تصميم انفوجرافيك بطريقة مبتكرة وجذابة</string>
+    <string name="favorite">المفضلة</string>
 </resources>

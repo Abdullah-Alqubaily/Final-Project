@@ -12,9 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.res.imageResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.finalproject.R
@@ -23,8 +21,7 @@ import com.example.finalproject.R
 fun ServiceDetails() {
     Column(
         modifier = Modifier
-            .padding(bottom = 100.dp)
-            .verticalScroll(rememberScrollState()),
+            .verticalScroll(rememberScrollState()).fillMaxSize(),
     ) {
         Image(
             modifier = Modifier
@@ -118,9 +115,6 @@ fun ServiceDetails() {
                 .align(Alignment.End)
                 .padding(top = 16.dp, end = 16.dp),
             text = "تصميم انفوجرافيك",
-            style = TextStyle(
-                textDirection = TextDirection.Rtl,
-            ),
             fontSize = 23.sp,
             fontWeight = FontWeight.Bold
         )
@@ -190,7 +184,7 @@ fun ServiceDetails() {
             horizontalArrangement = Arrangement.spacedBy(140.dp)
         ){
             Button(onClick = { /*TODO*/ }) {
-                Text(text = "Add to Cart")
+                Text(text = "Add to Fav")
             }
             Text(
                 modifier = Modifier.padding(top = 8.dp),
