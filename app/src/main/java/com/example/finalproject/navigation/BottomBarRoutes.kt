@@ -12,5 +12,6 @@ sealed class BottomBarRoutes(val route: String, val title: String? = null, val i
     object Home : BottomBarRoutes(route = "Home", title = "Home", icon = Icons.Filled.Home)
     object Profile : BottomBarRoutes(route = "Profile", title = "Profile", icon = Icons.Filled.Person)
     object Favorite : BottomBarRoutes(route = "Favorite", title = "Favorite", icon = Icons.Filled.Favorite)
+    object ProfileInfo : BottomBarRoutes(route = "ProfileInfo")
 
 }

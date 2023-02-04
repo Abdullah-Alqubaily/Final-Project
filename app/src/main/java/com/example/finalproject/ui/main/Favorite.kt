@@ -11,24 +11,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CartScreen() {
-    CartContent()
+fun FavoriteScreen() {
+    FavoriteContent()
 }
 
 @Composable
-fun CartContent() {
+fun FavoriteContent() {
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Cart", fontSize = 60.sp)
+        Text(text = "Favorite", fontSize = 60.sp)
     }
 }
 
 @Preview(device = "id:pixel_5")
 @Composable
-fun CartScreenPrev() {
-    CartContent()
+fun FavoriteScreenPrev() {
+    FavoriteContent()
 }

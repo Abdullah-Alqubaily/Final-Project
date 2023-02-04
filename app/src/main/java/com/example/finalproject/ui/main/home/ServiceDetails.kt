@@ -21,14 +21,17 @@ import com.example.finalproject.R
 fun ServiceDetails() {
     Column(
         modifier = Modifier
-            .verticalScroll(rememberScrollState()).fillMaxSize(),
+            .verticalScroll(rememberScrollState())
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Image(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(220.dp),
             bitmap = ImageBitmap.imageResource(id = R.drawable.image),
-            contentDescription = "Graphic designer image")
+            contentDescription = "Graphic designer image"
+        )
 
         Card(
             modifier = Modifier
@@ -58,42 +61,50 @@ fun ServiceDetails() {
                     horizontalArrangement = Arrangement.SpaceAround
                 ) {
                     Row(
-                        modifier = Modifier.padding(start = 30.dp)
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(30.dp),
-                            imageVector = Icons.Default.Star, contentDescription ="Star icon"
-                        )
-                        Icon(
-                            modifier = Modifier.size(30.dp),
-                            imageVector = Icons.Default.Star, contentDescription ="Star icon"
-                        )
-                        Icon(
-                            modifier = Modifier.size(30.dp),
-                            imageVector = Icons.Default.Star, contentDescription ="Star icon"
-                        )
-                        Icon(
-                            modifier = Modifier.size(30.dp),
-                            imageVector = Icons.Default.Star, contentDescription ="Star icon"
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(80.dp))
-                    Row(
                         modifier = Modifier
                             .fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start
                     ) {
+                        Row(
+                            modifier = Modifier.padding(start = 10.dp),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+
+                            CircleImg(
+                                size = 50.dp
+                            )
+
+                            Text(
+                                modifier = Modifier.padding(start = 16.dp),
+                                text = "Ahmed",
+                                fontSize = 20.sp,
+                            )
+                        }
+
                         Row(
                             modifier = Modifier.padding(start = 30.dp)
                         ) {
-                            Text(
-                                modifier = Modifier.padding(top = 15.dp),
-                                text = "احمد",
-                                fontSize = 20.sp
+                            Icon(
+                                modifier = Modifier.size(30.dp),
+                                imageVector = Icons.Default.Star, contentDescription = "Star icon"
                             )
-                            Spacer(modifier = Modifier.width(12.dp))
-                            CircleImg(
-                                size = 50.dp
+                            Icon(
+                                modifier = Modifier.size(30.dp),
+                                imageVector = Icons.Default.Star, contentDescription = "Star icon"
+                            )
+                            Icon(
+                                modifier = Modifier.size(30.dp),
+                                imageVector = Icons.Default.Star, contentDescription = "Star icon"
+                            )
+                            Icon(
+                                modifier = Modifier.size(30.dp),
+                                imageVector = Icons.Default.Star, contentDescription = "Star icon"
+                            )
+                            Icon(
+                                modifier = Modifier.size(30.dp),
+                                imageVector = Icons.Default.Star, contentDescription = "Star icon"
                             )
                         }
 
@@ -101,98 +112,67 @@ fun ServiceDetails() {
 
                 }
 
-
             }
         }
-        /**
-         * seperator
-         */
-        /**
-         * seperator
-         */
-        Text(
-            modifier = Modifier
-                .align(Alignment.End)
-                .padding(top = 16.dp, end = 16.dp),
-            text = "تصميم انفوجرافيك",
-            fontSize = 23.sp,
-            fontWeight = FontWeight.Bold
-        )
-        Divider(
-            color = Color.Black,
-            thickness = 2.dp,
-            startIndent = 260.dp
-        )
-        Text(
-            modifier = Modifier
-                .align(Alignment.End),
-            text = "هل تريد النجاح في الترويج لمنتجاتك او مشروعك الخاص؟"
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(
-            modifier = Modifier
-                .align(Alignment.End),
-            text = "اعتقد با ان الجواب \"نعم\" وهنا يأتي دوري كمصمم جرافيكي سوف اقوم"
-        )
-        Text(
-            modifier = Modifier
-                .align(Alignment.End),
-            text = " با تقديم اعلان من لأبداع الممزوج  بالشغف يساعدك على رفع مبيعاتك"
-        )
-        Text(
-            modifier = Modifier
-                .align(Alignment.End),
-            text = ".وتفاعل على صفحة النشاط التجاري بكم "
-        )
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(
-            modifier = Modifier
-                .align(Alignment.End),
-            text = ":ماسنقدمه لك مقابل في هذه الخدمة"
-        )
-        Text(
-            modifier = Modifier
-                .align(Alignment.End),
-            text = " :ماسنقدمه غي في هذه الخدمة"
-        )
-        Text(
-            modifier = Modifier
-                .align(Alignment.End),
-            text = "تصميم بنر اعلاني بفكرة ابداعية-"
-        )
-        Text(
-            modifier = Modifier
-                .align(Alignment.End),
-            text = "تسليم العمل خلال يومين (48) ساعة" + "-"
-        )
-        Text(
-            modifier = Modifier
-                .align(Alignment.End),
-            text = "." +  "تسليم التصميم بمقاس 500 * 500 بكسل" + "-"
-        )
-        Text(
-            modifier = Modifier
-                .align(Alignment.End),
-            text = "." +  "تسليم العمل بصيغة PNG" + "-"
-        )
-        Spacer(modifier = Modifier.height(30.dp))
 
-        Row (
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(20.dp),
-            horizontalArrangement = Arrangement.spacedBy(140.dp)
-        ){
-            Button(onClick = { /*TODO*/ }) {
-                Text(text = "Add to Fav")
-            }
+                .wrapContentSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             Text(
-                modifier = Modifier.padding(top = 8.dp),
-                text = "السعر $15",
-                fontSize = 24.sp,
+                modifier = Modifier
+                    .padding(top = 16.dp, end = 16.dp),
+                text = "Graphic Design",
+                fontSize = 23.sp,
                 fontWeight = FontWeight.Bold
             )
+            Divider(
+                color = Color.Black,
+                thickness = 2.dp,
+            )
+
+
+            Text(
+                modifier = Modifier,
+                text = "Do you want to sucsuss"
+            )
+
+            Text(
+                modifier = Modifier,
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
+                        " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            )
+            Text(
+                modifier = Modifier,
+                text = " Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
+                        " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            )
+            Text(
+                modifier = Modifier,
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit," +
+                        " sed do eiusmod tempor incididunt ut labore et dolore magna aliqua "
+            )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                horizontalArrangement = Arrangement.spacedBy(100.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(onClick = { /*TODO*/ }) {
+                    Text(text = "Add to Fav")
+                }
+                Text(
+                    modifier = Modifier,
+                    text = "price $15",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
-        Spacer(modifier = Modifier.height(40.dp))
     }
+
 }
