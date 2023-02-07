@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -53,7 +55,9 @@ fun LoginScreen(
         password = password,
         loginFlow = loginFlow,
         onEmailChange = { email = it },
+        onEmailReset = { email = "" },
         onPassChange = { password = it },
+        onPassReset = { password = "" },
         onClickedText = onClickedText,
         onSuccess = onSuccess
     )
@@ -68,7 +72,9 @@ fun LoginContent(
     password: String,
     loginFlow: State<Resource<FirebaseUser>?>?,
     onEmailChange: (String) -> Unit,
+    onEmailReset: () -> Unit,
     onPassChange: (String) -> Unit,
+    onPassReset: () -> Unit,
     onClickedText: () -> Unit,
     onSuccess: () -> Unit,
     modifier: Modifier = Modifier
@@ -99,11 +105,21 @@ fun LoginContent(
                 .fillMaxWidth()
         ) {
 
-            OutlinedTextField(
+            TextField(
                 value = email,
                 onValueChange = onEmailChange,
                 label = {
                     Text(text = stringResource(id = R.string.email))
+                },
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = "clear text",
+                        modifier = Modifier
+                            .clickable {
+                                onEmailReset()
+                            }
+                    )
                 },
                 modifier = Modifier.constrainAs(refEmail) {
                     top.linkTo(parent.top, spacing.extraLarge)
@@ -124,11 +140,21 @@ fun LoginContent(
                 )
             )
 
-            OutlinedTextField(
+            TextField(
                 value = password,
                 onValueChange = onPassChange,
                 label = {
                     Text(text = stringResource(id = R.string.password))
+                },
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = "clear text",
+                        modifier = Modifier
+                            .clickable {
+                                onPassReset()
+                            }
+                    )
                 },
                 visualTransformation = PasswordVisualTransformation(),
                 modifier = Modifier.constrainAs(refPassword) {

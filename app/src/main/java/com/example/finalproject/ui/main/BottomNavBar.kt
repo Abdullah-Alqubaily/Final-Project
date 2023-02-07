@@ -51,7 +51,7 @@ fun BottomNavigation(
     val items = listOf(BottomBarRoutes.Home, BottomBarRoutes.Favorite, BottomBarRoutes.Profile)
 
     NavigationBar(
-        modifier = Modifier.clip(RoundedCornerShape(topStart = 25.dp, topEnd = 25.dp)),
+        modifier = Modifier,
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route

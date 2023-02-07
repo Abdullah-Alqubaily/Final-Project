@@ -96,7 +96,7 @@ fun ProfileContent(
         ) {
 
             Box(
-                modifier = Modifier.size(120.dp),
+                modifier = Modifier.size(130.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Card(
@@ -162,14 +162,13 @@ fun ProfileContent(
             )
 
             ListItemComponent(text = "Language", icon = R.drawable.language)
-            Divider()
 
             if (userViewModel?.currentUser != null) {
                 ListItemComponent(text = "Profile info", icon = R.drawable.account_box) {
                     onProfileInfoClicked()
                 }
-                Divider()
             }
+            Divider()
 
             Text(
                 modifier = Modifier.padding(16.dp),
@@ -179,8 +178,8 @@ fun ProfileContent(
             )
 
             ListItemComponent(text = "Support", icon = R.drawable.support)
-            Divider()
             ListItemComponent(text = "Privacy policy", icon = R.drawable.lock)
+            Divider()
         }
     }
 

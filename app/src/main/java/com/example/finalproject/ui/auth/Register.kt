@@ -2,9 +2,12 @@ package com.example.finalproject.ui.auth
 
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -43,8 +46,11 @@ fun RegisterScreen(
         password = password,
         signupFlow = signupFlow,
         onNameChange = { name = it},
+        onNameReset = { name = "" },
         onEmailChange = { email = it },
+        onEmailReset = { email = "" },
         onPassChange = { password = it },
+        onPassReset = { password = "" },
         onSuccess = onSuccess
     )
 
@@ -60,8 +66,11 @@ fun RegisterContent(
     password: String,
     signupFlow: State<Resource<FirebaseUser>?>?,
     onNameChange: (String) -> Unit,
+    onNameReset: () -> Unit,
     onEmailChange: (String) -> Unit,
+    onEmailReset: () -> Unit,
     onPassChange: (String) -> Unit,
+    onPassReset: () -> Unit,
     onSuccess: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -89,11 +98,21 @@ fun RegisterContent(
         ) {
 
 
-            OutlinedTextField(
+            TextField(
                 value = name,
                 onValueChange = onNameChange,
                 label = {
                     Text(text = stringResource(id = R.string.username))
+                },
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = "clear text",
+                        modifier = Modifier
+                            .clickable {
+                                onNameReset()
+                            }
+                    )
                 },
                 modifier = Modifier.constrainAs(refName) {
                     top.linkTo(parent.top, spacing.extraLarge)
@@ -114,11 +133,21 @@ fun RegisterContent(
                 )
             )
 
-            OutlinedTextField(
+            TextField(
                 value = email,
                 onValueChange = onEmailChange,
                 label = {
                     Text(text = stringResource(id = R.string.email))
+                },
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = "clear text",
+                        modifier = Modifier
+                            .clickable {
+                                onEmailReset()
+                            }
+                    )
                 },
                 modifier = Modifier.constrainAs(refEmail) {
                     top.linkTo(refName.bottom, spacing.medium)
@@ -139,11 +168,21 @@ fun RegisterContent(
                 )
             )
 
-            OutlinedTextField(
+            TextField(
                 value = password,
                 onValueChange = onPassChange,
                 label = {
                     Text(text = stringResource(id = R.string.password))
+                },
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = "clear text",
+                        modifier = Modifier
+                            .clickable {
+                                onPassReset()
+                            }
+                    )
                 },
                 modifier = Modifier.constrainAs(refPassword) {
                     top.linkTo(refEmail.bottom, spacing.medium)
