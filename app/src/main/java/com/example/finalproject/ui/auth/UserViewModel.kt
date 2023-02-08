@@ -1,6 +1,8 @@
 package com.example.finalproject.ui.auth
 
+import android.content.ContentValues.TAG
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.finalproject.data.AuthRepository
@@ -31,6 +33,9 @@ class UserViewModel @Inject constructor(
     private val _profilePhoto = MutableStateFlow<Uri?>(null)
     val profilePhoto: StateFlow<Uri?> = _profilePhoto
 
+    private val _userType = MutableStateFlow<String?>(null)
+    val userType: StateFlow<String?> = _userType
+
     val currentUser: FirebaseUser?
         get() = repository.currentUser
 
@@ -45,10 +50,34 @@ class UserViewModel @Inject constructor(
 
     init {
 //        _startDestination.value = Graph.MainHome.route
-        if(repository.currentUser != null){
+        if (repository.currentUser != null) {
             _loginFlow.value = Resource.Success(repository.currentUser!!)
             getProfilePhoto()
         }
+    }
+
+    fun getUserJob() {
+        val docRef = db?.collection("users")?.document(currentUser!!.uid)
+        docRef?.get()
+            ?.addOnSuccessListener { document ->
+                if (document != null) {
+                    Log.d("get", "DocumentSnapshot data: ${document.data}")
+                    _userType.value = document.data?.get("userType").toString()
+                } else {
+                    Log.d("get", "No such document")
+                }
+            }
+            ?.addOnFailureListener { exception ->
+                Log.d(TAG, "get failed with ", exception)
+            }
+
+    }
+
+    fun updateUserProfile(service: String) {
+        val user = db?.collection("users")?.document(currentUser!!.uid)
+        user!!.update("userType", service)
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
     }
 
     fun getProfilePhoto() = viewModelScope.launch {
@@ -74,7 +103,7 @@ class UserViewModel @Inject constructor(
             id = Firebase.auth.currentUser?.uid,
             name = Firebase.auth.currentUser?.displayName,
             userType = "normal",
-            bio ="hello my name is ${Firebase.auth.currentUser?.displayName}",
+            bio = "hello my name is ${Firebase.auth.currentUser?.displayName}",
         )
         db?.collection("users")?.document(Firebase.auth.currentUser!!.uid)?.set(user)
 

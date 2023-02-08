@@ -19,7 +19,8 @@ fun BottomNavGraph(
     userViewModel: UserViewModel?,
     navController: NavHostController,
     onLogInBtn: () -> Unit,
-    onServiceClicked: () -> Unit
+    onServiceClicked: () -> Unit,
+    onProvideServiceClicked: () -> Unit
 ) {
 
     NavHost(
@@ -36,13 +37,20 @@ fun BottomNavGraph(
         }
 
         composable(BottomBarRoutes.Favorite.route) {
-            FavoriteScreen()
+            FavoriteScreen {
+                onServiceClicked()
+            }
         }
 
         composable(BottomBarRoutes.Profile.route) {
-            ProfileScreen(userViewModel = userViewModel, onLogInBtn
+            ProfileScreen(
+                userViewModel = userViewModel,
+                onLogInBtn = onLogInBtn,
+                onProfileInfoClicked =  {
+                    navController.navigate(BottomBarRoutes.ProfileInfo.route)
+                }
             ){
-                navController.navigate(BottomBarRoutes.ProfileInfo.route)
+                onProvideServiceClicked()
             }
         }
 

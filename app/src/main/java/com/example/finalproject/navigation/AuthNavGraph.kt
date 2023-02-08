@@ -57,6 +57,9 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onServiceClicked = {
                     navController.navigate(Graph.Details.route)
+                },
+                onProvideServiceClicked = {
+                    navController.navigate(Graph.ProvideService.route)
                 }
             )
         }

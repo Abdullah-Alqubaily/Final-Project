@@ -27,7 +27,8 @@ fun BottomNavScreen(
     userViewModel: UserViewModel?,
     navController: NavHostController? = rememberNavController(),
     onLogInBtn: () -> Unit,
-    onServiceClicked: () -> Unit
+    onServiceClicked: () -> Unit,
+    onProvideServiceClicked: () -> Unit
 ) {
     Scaffold(
         bottomBar = { BottomNavigation(navController = navController!!) }
@@ -36,8 +37,10 @@ fun BottomNavScreen(
             BottomNavGraph(
                 userViewModel = userViewModel,
                 navController = navController!!,
-                onLogInBtn = onLogInBtn) {
-                    onServiceClicked()
+                onLogInBtn = onLogInBtn,
+                onServiceClicked = onServiceClicked,
+            ) {
+                onProvideServiceClicked()
             }
         }
     }
@@ -89,5 +92,5 @@ fun BottomNavigation(
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun BottomNavPrev() {
-    BottomNavScreen(null, navController = null,{}) {}
+    BottomNavScreen(null, navController = null,{}, {}) {}
 }

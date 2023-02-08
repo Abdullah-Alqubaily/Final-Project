@@ -1,5 +1,7 @@
 package com.example.finalproject.ui.main.profile
 
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -14,23 +16,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.finalproject.ui.auth.UserViewModel
 import com.example.finalproject.ui.main.profile.components.TickItem
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProvideServiceScreen(
-
+    modifier: Modifier = Modifier,
+    userViewModel: UserViewModel?,
+    onClick: () -> Unit
 ) {
-    ProvideServiceContent()
+    ProvideServiceContent(
+        userViewModel = userViewModel,
+        onClick = onClick
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProvideServiceContent(
-
+    userViewModel: UserViewModel?,
+    onClick: () -> Unit
 ) {
 
     var phoneNumber by rememberSaveable { mutableStateOf("") }
@@ -39,13 +48,22 @@ fun ProvideServiceContent(
 
     var isCheckedBooleanDesigner by rememberSaveable { mutableStateOf(false) }
 
+    val context = LocalContext.current
+
+
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp, top = 32.dp),
-            text = "Become a seller",
+            modifier = Modifier.padding(
+                start = 16.dp,
+                end = 16.dp,
+                bottom = 16.dp,
+                top = 32.dp
+            ),
+            text = "Become a service provider",
             fontSize = 24.sp
         )
         TextField(
@@ -93,10 +111,23 @@ fun ProvideServiceContent(
 
         Button(
             modifier = Modifier.padding(top = 60.dp),
-            onClick = { /*TODO*/ },
+            onClick = {
+                      if (isCheckedBooleanDesigner && isCheckedBooleanPhotographer) {
+                          userViewModel?.updateUserProfile("Photographer/Designer")
+                          onClick()
+                      } else if (isCheckedBooleanPhotographer) {
+                          userViewModel?.updateUserProfile("Photographer")
+                          onClick()
+                      } else if (isCheckedBooleanDesigner) {
+                          userViewModel?.updateUserProfile("Designer")
+                          onClick()
+                      } else {
+                          Toast.makeText(context, "Please chose one", LENGTH_SHORT).show()
+                      }
+            },
             shape = RoundedCornerShape(20.dp),
         ) {
-            androidx.compose.material.Text(
+            Text(
                 modifier = Modifier,
                 text = "Continue",
                 fontSize = 18.sp,
@@ -104,10 +135,12 @@ fun ProvideServiceContent(
             )
         }
     }
+
 }
+
 
 @Preview
 @Composable
 fun ProvideServicePrev() {
-    ProvideServiceContent()
+    ProvideServiceContent(null){}
 }

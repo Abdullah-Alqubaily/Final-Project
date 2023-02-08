@@ -35,9 +35,9 @@ fun HomeContent(
     ) {
 
         LazyColumn(
-            modifier = Modifier.padding(top = 50.dp),
+            modifier = Modifier.padding(top = 55.dp),
             contentPadding = PaddingValues(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ){
             items(10) {

@@ -40,17 +40,21 @@ import com.example.finalproject.ui.theme.spacing
 fun ProfileScreen(
     userViewModel: UserViewModel?,
     onLogInBtn: () -> Unit,
-    onProfileInfoClicked: () -> Unit
+    onProfileInfoClicked: () -> Unit,
+    onProvideServiceClicked: () -> Unit
 ) {
     val profilePhoto = userViewModel?.profilePhoto?.collectAsState()
+    val userType = userViewModel?.userType?.collectAsState()
 
 
     ProfileContent(
         userViewModel = userViewModel,
-        profilePhoto,
-        onLogInBtn,
+        profilePhoto = profilePhoto,
+        userType = userType,
+        onLogInBtn = onLogInBtn,
+        onProfileInfoClicked = onProfileInfoClicked
     ) {
-        onProfileInfoClicked()
+        onProvideServiceClicked()
     }
 }
 
@@ -58,8 +62,11 @@ fun ProfileScreen(
 fun ProfileContent(
     userViewModel: UserViewModel?,
     profilePhoto: State<Uri?>?,
+    userType: State<String?>?,
     onLogInBtn: () -> Unit,
-    onProfileInfoClicked: () -> Unit
+    onProfileInfoClicked: () -> Unit,
+    onProvideServiceClicked: () -> Unit
+
 ) {
 
     val context = LocalContext.current
@@ -145,12 +152,23 @@ fun ProfileContent(
                     Divider()
                 }
                 else -> {
-                    ListItemComponent(
-                        text = "Become a service provider",
-                        color = MaterialTheme.colorScheme.primary,
-                        icon = R.drawable.login
-                    )
-                    Divider()
+                    if (userType?.value == "normal") {
+                        ListItemComponent(
+                            text = "Become a service provider",
+                            color = MaterialTheme.colorScheme.primary,
+                            icon = R.drawable.login,
+                            onClick =  onProvideServiceClicked
+                        )
+                        Divider()
+                    } else {
+                        ListItemComponent(
+                            text = "Make a post",
+                            color = MaterialTheme.colorScheme.primary,
+                            icon = R.drawable.baseline_post_add_24,
+                        )
+                        Divider()
+                    }
+
                 }
             }
 
@@ -189,5 +207,5 @@ fun ProfileContent(
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun ProfileScreenPrv() {
-    ProfileScreen(null, {},{})
+    ProfileScreen(null, {},{}) {}
 }
