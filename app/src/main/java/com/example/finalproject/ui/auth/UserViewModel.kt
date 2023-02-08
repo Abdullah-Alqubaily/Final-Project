@@ -56,7 +56,7 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun getUserJob() {
+    fun getUserJob()  = viewModelScope.launch{
         val docRef = db?.collection("users")?.document(currentUser!!.uid)
         docRef?.get()
             ?.addOnSuccessListener { document ->
@@ -73,7 +73,7 @@ class UserViewModel @Inject constructor(
 
     }
 
-    fun updateUserProfile(service: String) {
+    fun updateUserProfile(service: String) = viewModelScope.launch{
         val user = db?.collection("users")?.document(currentUser!!.uid)
         user!!.update("userType", service)
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }

@@ -112,18 +112,19 @@ fun ProvideServiceContent(
         Button(
             modifier = Modifier.padding(top = 60.dp),
             onClick = {
-                      if (isCheckedBooleanDesigner && isCheckedBooleanPhotographer) {
-                          userViewModel?.updateUserProfile("Photographer/Designer")
-                          onClick()
-                      } else if (isCheckedBooleanPhotographer) {
-                          userViewModel?.updateUserProfile("Photographer")
-                          onClick()
-                      } else if (isCheckedBooleanDesigner) {
-                          userViewModel?.updateUserProfile("Designer")
-                          onClick()
-                      } else {
-                          Toast.makeText(context, "Please chose one", LENGTH_SHORT).show()
-                      }
+                userViewModel?.getUserJob()
+                if (isCheckedBooleanDesigner && isCheckedBooleanPhotographer) {
+                    userViewModel?.updateUserProfile("Photographer/Designer")
+                    onClick()
+                } else if (isCheckedBooleanPhotographer) {
+                    userViewModel?.updateUserProfile("Photographer")
+                    onClick()
+                } else if (isCheckedBooleanDesigner) {
+                    userViewModel?.updateUserProfile("Designer")
+                    onClick()
+                } else {
+                    Toast.makeText(context, "Please chose one", LENGTH_SHORT).show()
+                }
             },
             shape = RoundedCornerShape(20.dp),
         ) {
@@ -142,5 +143,5 @@ fun ProvideServiceContent(
 @Preview
 @Composable
 fun ProvideServicePrev() {
-    ProvideServiceContent(null){}
+    ProvideServiceContent(null) {}
 }

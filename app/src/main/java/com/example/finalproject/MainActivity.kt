@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import com.example.finalproject.navigation.Nav
 import com.example.finalproject.ui.auth.UserViewModel
 import com.example.finalproject.ui.theme.FinalProjectTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,7 +31,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    userViewModel.getUserJob()
+                    if (FirebaseAuth.getInstance().currentUser != null) {
+                        userViewModel.getUserJob()
+                    }
                     Nav(userViewModel)
                 }
             }
