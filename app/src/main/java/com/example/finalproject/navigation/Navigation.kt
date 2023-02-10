@@ -23,6 +23,7 @@ fun Nav(
         authNavGraph(navController, userViewModel)
         serviceNavGraph(navController, userViewModel)
         provideServiceNavGraph(navController, userViewModel)
+        makePostNavGraph(navController, userViewModel)
     }
 }
 
@@ -32,4 +33,5 @@ sealed class Graph(val route: String) {
     object MainHome : Graph(route = "MainHome")
     object Details : Graph(route = "Details")
     object ProvideService : Graph(route = "Provide Service")
+    object MakePost : Graph(route = "Make a Post")
 }

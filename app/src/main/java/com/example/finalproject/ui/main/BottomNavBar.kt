@@ -28,6 +28,7 @@ fun BottomNavScreen(
     navController: NavHostController? = rememberNavController(),
     onLogInBtn: () -> Unit,
     onServiceClicked: () -> Unit,
+    onMakePostClicked: () -> Unit,
     onProvideServiceClicked: () -> Unit
 ) {
     Scaffold(
@@ -39,6 +40,7 @@ fun BottomNavScreen(
                 navController = navController!!,
                 onLogInBtn = onLogInBtn,
                 onServiceClicked = onServiceClicked,
+                onMakePostClicked = onMakePostClicked,
             ) {
                 onProvideServiceClicked()
             }
@@ -92,5 +94,5 @@ fun BottomNavigation(
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun BottomNavPrev() {
-    BottomNavScreen(null, navController = null,{}, {}) {}
+    BottomNavScreen(null, navController = null,{}, {},{}) {}
 }

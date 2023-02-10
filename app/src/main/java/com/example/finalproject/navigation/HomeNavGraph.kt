@@ -20,6 +20,7 @@ fun BottomNavGraph(
     navController: NavHostController,
     onLogInBtn: () -> Unit,
     onServiceClicked: () -> Unit,
+    onMakePostClicked: () -> Unit,
     onProvideServiceClicked: () -> Unit
 ) {
 
@@ -48,6 +49,9 @@ fun BottomNavGraph(
                 onLogInBtn = onLogInBtn,
                 onProfileInfoClicked =  {
                     navController.navigate(BottomBarRoutes.ProfileInfo.route)
+                },
+                onMakePostClicked = {
+                    onMakePostClicked()
                 }
             ){
                 onProvideServiceClicked()

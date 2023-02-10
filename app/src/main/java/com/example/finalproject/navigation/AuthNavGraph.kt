@@ -1,4 +1,5 @@
 package com.example.finalproject.navigation
+
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -24,29 +25,29 @@ fun NavGraphBuilder.authNavGraph(
             LoginScreen(userViewModel = userViewModel,
                 onClickedText = {
                     navController.navigate(AuthRoutes.Register.route) {
-                    popUpTo(AuthRoutes.Login.route) { inclusive = false }
-                }
-            }, onSuccess = {
-                    userViewModel.getProfilePhoto()
-                navController.popBackStack()
-                navController.navigate(Graph.MainHome.route) {
-                    popUpTo(Graph.MainHome.route) {
-                        inclusive = true
+                        popUpTo(AuthRoutes.Login.route) { inclusive = false }
                     }
-                }
-            })
+                }, onSuccess = {
+                    userViewModel.getProfilePhoto()
+                    navController.popBackStack()
+                    navController.navigate(Graph.MainHome.route) {
+                        popUpTo(Graph.MainHome.route) {
+                            inclusive = true
+                        }
+                    }
+                })
         }
 
         composable(route = AuthRoutes.Register.route) {
             RegisterScreen(viewModel = userViewModel,
-            onSuccess = {
-                navController.popBackStack()
-                navController.navigate(Graph.MainHome.route) {
-                    popUpTo(Graph.MainHome.route) {
-                        inclusive = true
+                onSuccess = {
+                    navController.popBackStack()
+                    navController.navigate(Graph.MainHome.route) {
+                        popUpTo(Graph.MainHome.route) {
+                            inclusive = true
+                        }
                     }
-                }
-            })
+                })
         }
 
         composable(route = Graph.MainHome.route) {
@@ -57,6 +58,9 @@ fun NavGraphBuilder.authNavGraph(
                 },
                 onServiceClicked = {
                     navController.navigate(Graph.Details.route)
+                },
+                onMakePostClicked = {
+                    navController.navigate(Graph.MakePost.route)
                 },
                 onProvideServiceClicked = {
                     navController.navigate(Graph.ProvideService.route)

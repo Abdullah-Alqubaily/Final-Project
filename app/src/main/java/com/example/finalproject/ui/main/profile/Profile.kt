@@ -41,6 +41,7 @@ fun ProfileScreen(
     userViewModel: UserViewModel?,
     onLogInBtn: () -> Unit,
     onProfileInfoClicked: () -> Unit,
+    onMakePostClicked: () -> Unit,
     onProvideServiceClicked: () -> Unit
 ) {
     val profilePhoto = userViewModel?.profilePhoto?.collectAsState()
@@ -52,7 +53,8 @@ fun ProfileScreen(
         profilePhoto = profilePhoto,
         userType = userType,
         onLogInBtn = onLogInBtn,
-        onProfileInfoClicked = onProfileInfoClicked
+        onProfileInfoClicked = onProfileInfoClicked,
+        onMakePostClicked = onMakePostClicked
     ) {
         onProvideServiceClicked()
     }
@@ -65,6 +67,7 @@ fun ProfileContent(
     userType: State<String?>?,
     onLogInBtn: () -> Unit,
     onProfileInfoClicked: () -> Unit,
+    onMakePostClicked: () -> Unit,
     onProvideServiceClicked: () -> Unit
 
 ) {
@@ -165,6 +168,7 @@ fun ProfileContent(
                             text = "Make a post",
                             color = MaterialTheme.colorScheme.primary,
                             icon = R.drawable.baseline_post_add_24,
+                            onClick = onMakePostClicked
                         )
                         Divider()
                     }
@@ -207,5 +211,5 @@ fun ProfileContent(
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun ProfileScreenPrv() {
-    ProfileScreen(null, {},{}) {}
+    ProfileScreen(null, {},{},{}) {}
 }
