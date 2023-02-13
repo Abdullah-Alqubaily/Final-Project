@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AnouncementSection(
+fun AnnouncementSection(
     modifier: Modifier = Modifier,
     intro : String,
     info : String,
@@ -34,11 +34,6 @@ fun AnouncementSection(
         fontSize = 20.sp
     )
     Spacer(modifier = Modifier.height(4.dp))
-    Text(
-        modifier = modifier,
-        text = info,
-        fontSize = 18.sp
-    )
 
     TextField(
         value = infoText,
@@ -47,8 +42,8 @@ fun AnouncementSection(
             .fillMaxWidth()
             .padding(horizontal = 32.dp)
             .size(200.dp),
-        label = { Text(text = "Information") },
-        placeholder = { Text(text = "Enter your information here...") },
+        label = { Text(text = "") },
+        placeholder = {  },
         trailingIcon = {
             Icon(
                 Icons.Default.Clear,

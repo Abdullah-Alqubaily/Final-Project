@@ -3,6 +3,8 @@ package com.example.finalproject.ui.auth
 import android.content.ContentValues.TAG
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.finalproject.data.AuthRepository
@@ -16,8 +18,12 @@ import com.google.firebase.storage.StorageReference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import okhttp3.internal.wait
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
@@ -33,7 +39,9 @@ class UserViewModel @Inject constructor(
     private val _profilePhoto = MutableStateFlow<Uri?>(null)
     val profilePhoto: StateFlow<Uri?> = _profilePhoto
 
-    private val _userType = MutableStateFlow<String?>(null)
+//    private val _serviceImages =  MutableStateFlow<Uri?>(null)
+//    val : StateFlow<Uri?> = _profilePhoto
+    private val _userType = MutableStateFlow<String?>("normal")
     val userType: StateFlow<String?> = _userType
 
     val currentUser: FirebaseUser?
@@ -53,7 +61,27 @@ class UserViewModel @Inject constructor(
         if (repository.currentUser != null) {
             _loginFlow.value = Resource.Success(repository.currentUser!!)
             getProfilePhoto()
+            getUserJob()
         }
+    }
+
+    fun postService(images: List<Uri?>, serviceDes: String, whatIs: String, servicePrice: String) = viewModelScope.launch {
+        val user = db?.collection("users")?.document(currentUser!!.uid)
+        val serviceImages = mutableListOf<Uri>()
+        var count = 0
+        for (i in images) {
+            storageRef?.child("serviceImages/${currentUser?.uid}${count++}")
+                ?.putFile(i!!)?.await()?.storage?.downloadUrl?.addOnSuccessListener {
+                    serviceImages.add(it)
+                }?.await()
+            Log.d("pello", serviceImages.toString())
+        }
+        Log.d("fello", serviceImages.toString())
+
+        user?.update("serviceImg", serviceImages)
+        user?.update("serviceDes", serviceDes)
+        user?.update("whatIsTheService", whatIs)
+        user?.update("servicePrice", servicePrice)
     }
 
     fun getUserJob()  = viewModelScope.launch{
@@ -73,17 +101,20 @@ class UserViewModel @Inject constructor(
 
     }
 
-    fun updateUserProfile(service: String) = viewModelScope.launch{
+
+    fun updateUserProfile(service: String, phone: String) = viewModelScope.launch{
         val user = db?.collection("users")?.document(currentUser!!.uid)
-        user!!.update("userType", service)
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+        user?.update("userType", service)
+            ?.addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            ?.addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+        user?.update("phoneNum", phone)
     }
 
     fun getProfilePhoto() = viewModelScope.launch {
         val result = repository.getProfilePhoto()
         result.downloadUrl.addOnSuccessListener {
             _profilePhoto.value = it
+            Log.d("hello", it.toString())
         }
     }
 
@@ -91,6 +122,7 @@ class UserViewModel @Inject constructor(
         _loginFlow.value = Resource.Loading
         val result = repository.login(email, password)
         _loginFlow.value = result
+        getUserJob()
 
     }
 
@@ -103,9 +135,9 @@ class UserViewModel @Inject constructor(
             id = Firebase.auth.currentUser?.uid,
             name = Firebase.auth.currentUser?.displayName,
             userType = "normal",
-            bio = "hello my name is ${Firebase.auth.currentUser?.displayName}",
         )
         db?.collection("users")?.document(Firebase.auth.currentUser!!.uid)?.set(user)
+        getUserJob()
 
     }
 

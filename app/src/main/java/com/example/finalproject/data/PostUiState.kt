@@ -2,7 +2,7 @@ package com.example.finalproject.data
 
 import android.net.Uri
 
-data class UserUiState(
+data class PostUiState(
     val id: String? = null,
     val name: String? = null,
     val phoneNum: String? = null,

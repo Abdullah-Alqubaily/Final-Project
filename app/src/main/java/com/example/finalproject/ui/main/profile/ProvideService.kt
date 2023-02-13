@@ -10,11 +10,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
@@ -49,16 +45,19 @@ fun ProvideServiceContent(
     onClick: () -> Unit
 ) {
 
-    var phoneNumber by rememberSaveable { mutableStateOf("") }
+    var phoneNumber by remember { mutableStateOf("") }
 
-    var isCheckedBooleanPhotographer by rememberSaveable { mutableStateOf(false) }
+    var isCheckedBooleanPhotographer by remember { mutableStateOf(false) }
 
-    var isCheckedBooleanDesigner by rememberSaveable { mutableStateOf(false) }
+    var isCheckedBooleanDesigner by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
 
     val focusManager = LocalFocusManager.current
 
+    var bio by remember {
+        mutableStateOf("")
+    }
 
     Column(
         modifier = Modifier
@@ -99,7 +98,7 @@ fun ProvideServiceContent(
                 capitalization = KeyboardCapitalization.None,
                 autoCorrect = false,
                 keyboardType = KeyboardType.Phone,
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
                 onNext = {
@@ -133,17 +132,17 @@ fun ProvideServiceContent(
             modifier = Modifier.padding(top = 60.dp),
             onClick = {
                 userViewModel?.getUserJob()
-                if (isCheckedBooleanDesigner && isCheckedBooleanPhotographer) {
-                    userViewModel?.updateUserProfile("Photographer/Designer")
+                if (isCheckedBooleanDesigner && isCheckedBooleanPhotographer && phoneNumber.isNotEmpty()) {
+                    userViewModel?.updateUserProfile("Photographer/Designer", phoneNumber)
                     onClick()
-                } else if (isCheckedBooleanPhotographer) {
-                    userViewModel?.updateUserProfile("Photographer")
+                } else if (isCheckedBooleanPhotographer && phoneNumber.isNotEmpty()) {
+                    userViewModel?.updateUserProfile("Photographer", phoneNumber)
                     onClick()
-                } else if (isCheckedBooleanDesigner) {
-                    userViewModel?.updateUserProfile("Designer")
+                } else if (isCheckedBooleanDesigner && phoneNumber.isNotEmpty()) {
+                    userViewModel?.updateUserProfile("Designer", phoneNumber)
                     onClick()
                 } else {
-                    Toast.makeText(context, "Please chose one", LENGTH_SHORT).show()
+                    Toast.makeText(context, "Phone number is empty or select box is empty", LENGTH_SHORT).show()
                 }
             },
             shape = RoundedCornerShape(20.dp),

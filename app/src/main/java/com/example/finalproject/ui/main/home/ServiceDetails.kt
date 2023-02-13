@@ -16,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.finalproject.R
+import com.example.finalproject.ui.main.home.components.CircleImg
 
 @Composable
 fun ServiceDetails() {

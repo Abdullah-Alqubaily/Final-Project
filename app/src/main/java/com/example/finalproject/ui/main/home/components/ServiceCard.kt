@@ -1,4 +1,4 @@
-package com.example.finalproject.ui.main.home
+package com.example.finalproject.ui.main.home.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
