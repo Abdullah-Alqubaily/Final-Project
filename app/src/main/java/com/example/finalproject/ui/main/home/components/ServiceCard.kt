@@ -22,10 +22,12 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.finalproject.R
+import com.example.finalproject.ui.auth.UserViewModel
 
 @Composable
 fun ServiceCard(
     modifier: Modifier = Modifier,
+    userViewModel: UserViewModel?,
     onClick: () -> Unit
 ) {
     Card(

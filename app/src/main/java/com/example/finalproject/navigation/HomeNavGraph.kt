@@ -32,7 +32,7 @@ fun BottomNavGraph(
     ) {
 
         composable(BottomBarRoutes.Home.route) {
-            HomeScreen {
+            HomeScreen(userViewModel = userViewModel!!){
                 onServiceClicked()
             }
         }

@@ -12,20 +12,24 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.finalproject.R
+import com.example.finalproject.ui.auth.UserViewModel
 import com.example.finalproject.ui.main.home.components.ServiceCard
 
 @Composable
 fun HomeScreen(
+    userViewModel: UserViewModel,
     onClick: () -> Unit
 ) {
+    userViewModel.getServiceInfo()
     Tabs()
-    HomeContent {
+    HomeContent(userViewModel = userViewModel) {
         onClick()
     }
 }
 
 @Composable
 fun HomeContent(
+    userViewModel: UserViewModel,
     onClick: () -> Unit
 ) {
     Column(
@@ -44,6 +48,7 @@ fun HomeContent(
             items(10) {
                 ServiceCard(
                     modifier = Modifier,
+                    userViewModel = userViewModel
                 ) {
                     onClick()
                 }

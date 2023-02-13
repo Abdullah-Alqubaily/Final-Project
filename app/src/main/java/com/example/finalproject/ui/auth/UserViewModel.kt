@@ -39,8 +39,9 @@ class UserViewModel @Inject constructor(
     private val _profilePhoto = MutableStateFlow<Uri?>(null)
     val profilePhoto: StateFlow<Uri?> = _profilePhoto
 
-//    private val _serviceImages =  MutableStateFlow<Uri?>(null)
-//    val : StateFlow<Uri?> = _profilePhoto
+    private val _data =  MutableStateFlow<MutableMap<String, Any>?>(null)
+    val data : StateFlow<MutableMap<String, Any>?> = _data
+
     private val _userType = MutableStateFlow<String?>("normal")
     val userType: StateFlow<String?> = _userType
 
@@ -99,6 +100,16 @@ class UserViewModel @Inject constructor(
                 Log.d(TAG, "get failed with ", exception)
             }
 
+    }
+
+    fun getServiceInfo() = viewModelScope.launch{
+        db?.collection("users")?.get()?.addOnSuccessListener { result ->
+            for (document in result) {
+                _data.value?.put(document.id, document.data)
+//                Log.d("doc", "${document.id} => ${document.data["name"]}")
+            }
+        }?.await()
+        Log.d("doc", _data.value.toString())
     }
 
 

@@ -52,6 +52,7 @@ fun FavoriteContent(
             items(10) {
                 ServiceCard(
                     modifier = Modifier,
+                    null
                 ) {
                     onClick()
                 }
